@@ -1,0 +1,44 @@
+# CircleCI configuration for FormBuilder
+#
+# Runs tests with coverage on every push/PR (mirrors the GitHub Actions
+# `coverage.yml` workflow). GitHub Actions CI is unavailable in this repo
+# because billing is blocked, so CI runs on CircleCI's free tier instead.
+version: 2.1
+
+orbs:
+  codecov: codecov/codecov@5.3.0
+
+jobs:
+  test:
+    docker:
+      - image: cimg/node:lts
+    working_directory: ~/formbuilder
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-deps-{{ checksum "package-lock.json" }}
+            - v1-deps-
+      - run:
+          name: Install dependencies
+          command: npm ci
+      - save_cache:
+          key: v1-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Run tests with coverage
+          command: npm run test:coverage
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+      - codecov/upload:
+          file: coverage/lcov.info
+      - run:
+          name: Lint
+          command: npm run lint
+
+workflows:
+  test-and-lint:
+    jobs:
+      - test
