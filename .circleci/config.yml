@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  codecov: codecov/codecov@5
+  codecov: codecov/codecov@6
   github-cli: circleci/github-cli@2.4.0
 
 # ------------------------------------------------------------------
@@ -14,7 +14,7 @@ orbs:
 jobs:
   test:
     docker:
-      - image: cimg/node:24
+      - image: cimg/node:24.0
     steps:
       - checkout
       - restore_cache:
@@ -31,8 +31,7 @@ jobs:
       - run:
           name: Run tests with coverage
           command: npm run test:coverage -- --pool=threads
-      - codecov/upload:
-          file: coverage/lcov.info
+      - codecov/upload
 
   codeql:
     machine:
@@ -49,6 +48,8 @@ jobs:
               wget -q https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz
               tar -xzf codeql-bundle-linux64.tar.gz
             fi
+            # Prevent root package.json "type":"module" from breaking CodeQL's CJS tools
+            echo '{"type":"commonjs"}' > codeql/package.json
       - save_cache:
           key: codeql-bundle-v1-{{ .Branch }}
           paths:
@@ -123,8 +124,5 @@ workflows:
   ci:
     jobs:
       - test
-      - codeql:
-          filters:
-            branches:
-              only: main
+      - codeql
       - label
