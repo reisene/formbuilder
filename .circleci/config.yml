@@ -1,18 +1,20 @@
-# CircleCI configuration for FormBuilder
-#
-# Runs tests with coverage on every push/PR (mirrors the GitHub Actions
-# `coverage.yml` workflow). GitHub Actions CI is unavailable in this repo
-# because billing is blocked, so CI runs on CircleCI's free tier instead.
 version: 2.1
 
 orbs:
-  codecov: codecov/codecov@5.3.0
+  codecov: codecov/codecov@4.1.0
+  github-cli: circleci/github-cli@2.4.0
+
+# ------------------------------------------------------------------
+# Wymagane zmienne środowiskowe w ustawieniach projektu CircleCI:
+#   CODECOV_TOKEN – token uploadu do Codecov (repo settings)
+#   GH_TOKEN      – PAT GitHub z zakresem `repo` (labeler) oraz
+#                   `security_events` (upload SARIF z CodeQL)
+# ------------------------------------------------------------------
 
 jobs:
   test:
     docker:
-      - image: cimg/node:lts
-    working_directory: ~/formbuilder
+      - image: cimg/node:24
     steps:
       - checkout
       - restore_cache:
@@ -28,17 +30,101 @@ jobs:
             - ./node_modules
       - run:
           name: Run tests with coverage
-          command: npm run test:coverage
-      - store_artifacts:
-          path: coverage
-          destination: coverage
+          command: npm run test:coverage -- --pool=threads
       - codecov/upload:
           file: coverage/lcov.info
+
+  codeql:
+    machine:
+      image: ubuntu-2404:current
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - codeql-bundle-v1-
       - run:
-          name: Lint
-          command: npm run lint
+          name: Install CodeQL CLI
+          command: |
+            if [ ! -d codeql ]; then
+              wget -q https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz
+              tar -xzf codeql-bundle-linux64.tar.gz
+            fi
+      - save_cache:
+          key: codeql-bundle-v1-{{ .Branch }}
+          paths:
+            - ./codeql
+      - run:
+          name: Create CodeQL database
+          command: |
+            export PATH="$PWD/codeql:$PATH"
+            codeql database create codeql-db \
+              --language=javascript-typescript \
+              --source-root=.
+      - run:
+          name: Run CodeQL analysis
+          command: |
+            export PATH="$PWD/codeql:$PATH"
+            codeql database analyze codeql-db \
+              --format=sarif-latest \
+              --output=codeql-results.sarif
+      - run:
+          name: Upload SARIF to GitHub code scanning
+          command: |
+            if [ -z "$GH_TOKEN" ]; then
+              echo "GH_TOKEN not set - skipping SARIF upload"
+              exit 0
+            fi
+            curl -sS -X POST \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H "Accept: application/vnd.github+json" \
+              "https://api.github.com/repos/reisene/formbuilder/code-scanning/sarifs" \
+              -d "{\"commit_sha\":\"$CIRCLE_SHA1\",\"ref\":\"refs/heads/$CIRCLE_BRANCH\",\"sarif\":\"$(base64 -w0 codeql-results.sarif)\"}"
+      - store_artifacts:
+          path: codeql-results.sarif
+          destination: codeql-results.sarif
+
+  label:
+    docker:
+      - image: cimg/base:current
+    steps:
+      - checkout
+      - github-cli/install
+      - run:
+          name: Label pull request from changed files
+          command: |
+            PR_URL="${CIRCLE_PULL_REQUEST:-}"
+            if [ -z "$PR_URL" ]; then
+              echo "Not a pull request - skipping"
+              exit 0
+            fi
+            PR_NUMBER="${PR_URL##*/}"
+            echo "Labeling PR #$PR_NUMBER"
+
+            CHANGED="$(gh pr diff "$PR_NUMBER" --name-only 2>/dev/null || true)"
+            if [ -z "$CHANGED" ]; then
+              CHANGED="$(gh api "repos/reisene/formbuilder/pulls/$PR_NUMBER/files" --jq '.[].filename' 2>/dev/null || true)"
+            fi
+            echo "Changed files:"
+            echo "$CHANGED"
+
+            LABELS=""
+            if echo "$CHANGED" | grep -qE '(\.md$|\.mdx$|^src/content/)'; then LABELS="$LABELS documentation"; fi
+            if echo "$CHANGED" | grep -qE '\.(test|spec)\.(ts|tsx|js|jsx)$'; then LABELS="$LABELS test"; fi
+            if echo "$CHANGED" | grep -qE '^src/'; then LABELS="$LABELS source"; fi
+            if echo "$CHANGED" | grep -qE '(package\.json$|package-lock\.json$|pnpm-lock\.yaml$|yarn\.lock$)'; then LABELS="$LABELS dependencies"; fi
+
+            echo "Applying labels:${LABELS}"
+            for L in $LABELS; do
+              gh api -X POST "repos/reisene/formbuilder/issues/$PR_NUMBER/labels" \
+                -f "labels[]=$L" >/dev/null 2>&1 || echo "Could not apply label '$L'"
+            done
 
 workflows:
-  test-and-lint:
+  ci:
     jobs:
       - test
+      - codeql:
+          filters:
+            branches:
+              only: main
+      - label
