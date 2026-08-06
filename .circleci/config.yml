@@ -123,8 +123,5 @@ workflows:
   ci:
     jobs:
       - test
-      - codeql:
-          filters:
-            branches:
-              only: main
+      - codeql
       - label
