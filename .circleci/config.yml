@@ -58,6 +58,9 @@ jobs:
           name: Create CodeQL database
           command: |
             export PATH="$PWD/codeql:$PATH"
+            # Prevent Node.js from treating CodeQL's CommonJS tools as ES modules
+            # because the project root package.json has "type": "module".
+            echo '{"type":"commonjs"}' > codeql/package.json
             codeql database create codeql-db \
               --language=javascript-typescript \
               --source-root=.
