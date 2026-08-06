@@ -48,6 +48,8 @@ jobs:
               wget -q https://github.com/github/codeql-action/releases/latest/download/codeql-bundle-linux64.tar.gz
               tar -xzf codeql-bundle-linux64.tar.gz
             fi
+            # Prevent root package.json "type":"module" from breaking CodeQL's CJS tools
+            echo '{"type":"commonjs"}' > codeql/package.json
       - save_cache:
           key: codeql-bundle-v1-{{ .Branch }}
           paths:
