@@ -1,0 +1,18 @@
+body {
+  background-color: var(--body-background);
+  color: var(--foreground);
+  min-height: 100vh;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.app-content {
+  background-color: var(--content-background);
+  min-height: 100dvh;
+  transition: background-color 0.2s ease;
+}
+
+button.btn.btn-outline-secondary {
+  border-color: rgba(0, 0, 0, 0.15);
+}

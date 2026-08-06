@@ -1,0 +1,23 @@
+:root {
+  --font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --background: #ffffff;
+  --foreground: #212529;
+
+  --border-radius: 0.5rem;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  --body-background: #f8f9fa;
+  --content-background: #ffffff;
+}
+
+[data-theme='dark'] {
+  --body-background: #0d1118;
+  --content-background: #11151f;
+  --foreground: #f8f9f9;
+}

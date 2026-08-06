@@ -1,0 +1,26 @@
+name: 'Mark stale branches,   PRs and issues'
+
+on:
+  schedule:
+    - cron: '0 10 * * *'
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/stale@v11
+        with:
+          stale-issue-message: 'This issue has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs.'
+          stale-pr-message: 'This pull request has been automatically marked as stale because it has not had recent activity. It will be closed if no further activity occurs.'
+          days-before-stale: 30
+          days-before-close: 7
+          stale-issue-label: 'stale'
+          stale-pr-label: 'stale'
+          exempt-issue-labels: 'pinned'
+          exempt-pr-labels: 'pinned'
+
+      - name: Repo Pruner
+        uses: arminbro/repo-pruner@v2.1.22

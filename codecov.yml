@@ -1,0 +1,9 @@
+codecov:
+  require_ci_to_pass: yes
+  bot: 'codecov[bot]'
+  strict_yaml_branch: default
+
+coverage:
+  precision: 2
+  round: down
+  range: 60...80
