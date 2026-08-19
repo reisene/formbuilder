@@ -22,5 +22,6 @@ export default function ThemeInit() {
 })();
 `;
 
+  // eslint-disable-next-line react/no-danger -- static inline script, no user input, required for no-flash theme init
   return <script dangerouslySetInnerHTML={{ __html: code }} />;
 }
