@@ -23,7 +23,7 @@ export default function Footer({
             flexWrap: 'wrap',
           }}
         >
-          <span>Copyright © {new Date().getFullYear()}</span>
+          <span>Copyright &copy; {new Date().getFullYear()}</span>
           <Link
             href={author.url}
             className="text-decoration-none text-reset fw-bolder font-monospace"

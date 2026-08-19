@@ -10,7 +10,7 @@ const author: {
   name: process.env.NEXT_PUBLIC_AUTHOR || 'Your Name',
   url: process.env.NEXT_PUBLIC_GH || 'http://localhost:3000',
   mail: process.env.NEXT_PUBLIC_MAIL || 'you@example.com',
-  ico: process.env.NEXT_PUBLIC_ICO || BsGithub,
+  ico: process.env.NEXT_PUBLIC_ICO?.trimEnd().replace(/\s+$/g, '') || BsGithub,
 };
 const url = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 const repo = process.env.NEXT_PUBLIC_REPO || 'http://localhost:3000';

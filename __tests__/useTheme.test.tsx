@@ -5,6 +5,7 @@ import useTheme, { ThemeProvider } from '@/hooks/useTheme';
 afterEach(() => {
   cleanup();
   document.documentElement.dataset.theme = '';
+  document.documentElement.dataset.bsTheme = '';
   document.body.dataset.bsTheme = '';
   window.localStorage.clear();
 });
@@ -35,6 +36,7 @@ describe('useTheme / ThemeProvider', () => {
 
     expect(result.current.theme).toBe('dark');
     expect(document.documentElement.dataset.theme).toBe('dark');
+    expect(document.documentElement.dataset.bsTheme).toBe('dark');
     expect(document.body.dataset.bsTheme).toBe('dark');
     expect(window.localStorage.getItem('theme')).toBe('dark');
   });

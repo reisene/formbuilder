@@ -51,11 +51,12 @@ export function ThemeProvider({
   // localStorage only — no server-side cookie is needed.
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    document.documentElement.dataset.bsTheme = theme;
     document.body.dataset.bsTheme = theme;
 
     try {
       window.localStorage.setItem('theme', theme);
-    } catch (e) {
+    } catch {
       // ignore storage errors
     }
   }, [theme]);

@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import ThemeToggle from './ThemeToggle';
-import useTheme from '@/hooks/useTheme';
 import { usePathname } from 'next/navigation';
 
 import { Noto_Sans_Mono } from 'next/font/google';
@@ -42,8 +41,6 @@ const RepoLink = () => {
 
 function AppNavbar() {
   const pathname = usePathname();
-
-  const { theme } = useTheme();
 
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState({
@@ -100,13 +97,7 @@ function AppNavbar() {
   }, [updateIndicator]);
 
   return (
-    <Navbar
-      expand="lg"
-      sticky="top"
-      bg={theme}
-      data-bs-theme={theme}
-      className={notoMono.className}
-    >
+    <Navbar expand="lg" sticky="top" className={notoMono.className}>
       <Container>
         <Navbar.Brand as={Link} href="/" className="d-inline-flex align-items-center gap-2">
           <img alt="Form Builder Logo" src="/formbuilder.png" width="50" height="50" />
@@ -117,7 +108,6 @@ function AppNavbar() {
 
         <Navbar.Offcanvas
           className={notoMono.className}
-          data-bs-theme={theme}
           id="offcanvasNavbar-expand-lg"
           aria-labelledby="offcanvasNavbarLabel-expand-lg"
           placement="end"

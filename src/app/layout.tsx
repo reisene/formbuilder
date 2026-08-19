@@ -1,13 +1,13 @@
 import AppNavbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { ThemeProvider } from '@/hooks/useTheme';
+import ThemeInit from '@/hooks/themeInit';
 import site from '@/config/site';
 import '@/styles/global.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import type { Metadata, Viewport } from 'next';
 
-import Script from 'next/script';
 import { Noto_Sans } from 'next/font/google';
 import { headers } from 'next/headers';
 
@@ -80,28 +80,9 @@ export default async function RootLayout({
   const lng = await lang(headers);
 
   return (
-    <html lang={lng}>
-      <head>
-        {/* No-flash theme: runs before paint. Reads the user's saved choice from
-            localStorage, falling back to the OS preference, and applies it to
-            <html> before React hydrates. ThemeProvider then takes over the state. */}
-        <Script id="theme-init" strategy="beforeInteractive">
-          {`(function () {
-            try {
-              var theme = localStorage.getItem('theme');
-              if (theme !== 'light' && theme !== 'dark') {
-                theme = window.matchMedia &&
-                  window.matchMedia('(prefers-color-scheme: dark)').matches
-                  ? 'dark'
-                  : 'light';
-              }
-              document.documentElement.dataset.theme = theme;
-              document.body.dataset.bsTheme = theme;
-            } catch (e) {}
-          })();`}
-        </Script>
-      </head>
-      <body className={notoSans.className}>
+    <html lang={lng} suppressHydrationWarning>
+      <body className={notoSans.className} suppressHydrationWarning>
+        <ThemeInit />
         <ThemeProvider>
           <AppNavbar />
           <main className="app-content">{children}</main>
