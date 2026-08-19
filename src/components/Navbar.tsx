@@ -17,7 +17,7 @@ const navlinks = [
   { href: '/', label: 'Home' },
   { href: '/editor', label: 'Editor' },
   { href: '/docs', label: 'Docs' },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'About', disabled: true },
 ];
 
 import { BsGithub } from 'react-icons/bs';
@@ -141,8 +141,11 @@ function AppNavbar() {
                 <Nav.Link
                   key={link.href}
                   as={Link}
-                  href={link.href}
-                  active={isLinkActive(link.href)}
+                  href={link.disabled ? '#' : link.href}
+                  active={!link.disabled && isLinkActive(link.href)}
+                  aria-disabled={link.disabled || undefined}
+                  tabIndex={link.disabled ? -1 : undefined}
+                  onClick={link.disabled ? (e) => e.preventDefault() : undefined}
                 >
                   {link.label}
                 </Nav.Link>

@@ -7,6 +7,8 @@ import '@/styles/global.scss';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import type { Metadata, Viewport } from 'next';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { Noto_Sans } from 'next/font/google';
 import { headers } from 'next/headers';
@@ -88,6 +90,8 @@ export default async function RootLayout({
           <main className="app-content">{children}</main>
           <Footer author={site.author} />
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
