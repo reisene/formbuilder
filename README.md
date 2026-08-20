@@ -1,8 +1,20 @@
+<center>
+
+<img style='height: 130px;' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png/' />
+
 # Form Builder
+
+![GitHub License](https://img.shields.io/github/license/reisene/formbuilder)
+![GitHub Release](https://img.shields.io/github/v/release/reisene/formbuilder)
+[![Node.js](https://img.shields.io/badge/node-%3E%3D22.0-brightgreen?logo=node.js)](https://nodejs.org)
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5647358b807d4f1fa032f03d166632ad)](https://app.codacy.com/gh/reisene/formbuilder/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![codecov](https://codecov.io/gh/reisene/formbuilder/graph/badge.svg?token=3LJFR180S0)](https://codecov.io/gh/reisene/formbuilder)
 [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/G9R5r1gJVxu9sH9yYjxb4W/E3ZwVyJCSSjjo6NN7ucJzz/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/G9R5r1gJVxu9sH9yYjxb4W/E3ZwVyJCSSjjo6NN7ucJzz/tree/main)
+[![CodeFactor](https://www.codefactor.io/repository/github/reisene/formbuilder/badge)](https://www.codefactor.io/repository/github/reisene/formbuilder)
+[![Maintainability](https://qlty.sh/gh/reisene/projects/formbuilder/maintainability.svg)](https://qlty.sh/gh/reisene/projects/formbuilder)
+
+</center>
 
 A visual drag-and-drop form builder built with [Next.js](https://nextjs.org) (App Router), React, TypeScript and React Bootstrap. This is a portfolio project focused on clean architecture, scalability, maintainability and developer experience.
 
@@ -103,12 +115,12 @@ formbuilder/
 
 ## Roadmap
 
-- [ ] Visual drag-and-drop form builder editor (dnd-kit) at `/editor`
-- [ ] Form state and validation with React Hook Form + Zod
-- [ ] Global state management with Zustand
+- [x] Visual drag-and-drop form builder editor (dnd-kit) at `/editor`
+- [x] Form state and validation with React Hook Form + Zod
+- [x] Global state management with Zustand
 - [ ] Render documentation content from `src/content/docs` (MDX)
 - [ ] About page
-- [ ] Theme refinements (accessibility, more palettes)
+- [x] Theme refinements (accessibility, more palettes)
 
 ## Contributing
 
