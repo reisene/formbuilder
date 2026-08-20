@@ -3,6 +3,7 @@
 import { Form } from 'react-bootstrap';
 import { useFormStore } from '@/store/formStore';
 import type { FieldWidth } from '@/types/form';
+import { useState, useEffect } from 'react';
 
 export default function PropertiesPanel() {
   const groups = useFormStore((s) => s.groups);
@@ -11,11 +12,15 @@ export default function PropertiesPanel() {
   const updateField = useFormStore((s) => s.updateField);
   const updateGroupTitle = useFormStore((s) => s.updateGroupTitle);
 
-  if (selectedFieldId) {
-    const group = groups.find((g) => g.fields.some((f) => f.id === selectedFieldId));
-    const field = group?.fields.find((f) => f.id === selectedFieldId);
+  const [optionsText, setOptionsText] = useState('');
+  const fieldGroup = groups.find((g) => g.fields.some((f) => f.id === selectedFieldId));
+  const field = fieldGroup?.fields.find((f) => f.id === selectedFieldId);
+  useEffect(() => {
+    setOptionsText(field?.options?.join('\n') ?? '');
+  }, [field?.id]);
 
-    if (!group || !field) {
+  if (selectedFieldId) {
+    if (!fieldGroup || !field) {
       return <p className="text-muted">Select a field on the canvas to edit its properties.</p>;
     }
 
@@ -27,7 +32,7 @@ export default function PropertiesPanel() {
           <Form.Label>Field name</Form.Label>
           <Form.Control
             value={field.name}
-            onChange={(e) => updateField(group.id, field.id, { name: e.target.value })}
+            onChange={(e) => updateField(fieldGroup.id, field.id, { name: e.target.value })}
           />
         </Form.Group>
 
@@ -35,7 +40,7 @@ export default function PropertiesPanel() {
           <Form.Label>Label</Form.Label>
           <Form.Control
             value={field.label}
-            onChange={(e) => updateField(group.id, field.id, { label: e.target.value })}
+            onChange={(e) => updateField(fieldGroup.id, field.id, { label: e.target.value })}
           />
         </Form.Group>
 
@@ -44,7 +49,9 @@ export default function PropertiesPanel() {
             <Form.Label>Placeholder</Form.Label>
             <Form.Control
               value={field.placeholder ?? ''}
-              onChange={(e) => updateField(group.id, field.id, { placeholder: e.target.value })}
+              onChange={(e) =>
+                updateField(fieldGroup.id, field.id, { placeholder: e.target.value })
+              }
             />
           </Form.Group>
         )}
@@ -54,7 +61,7 @@ export default function PropertiesPanel() {
             type="checkbox"
             label="Required"
             checked={field.required}
-            onChange={(e) => updateField(group.id, field.id, { required: e.target.checked })}
+            onChange={(e) => updateField(fieldGroup.id, field.id, { required: e.target.checked })}
           />
         </Form.Group>
 
@@ -63,7 +70,7 @@ export default function PropertiesPanel() {
           <Form.Select
             value={field.width}
             onChange={(e) =>
-              updateField(group.id, field.id, { width: e.target.value as FieldWidth })
+              updateField(fieldGroup.id, field.id, { width: e.target.value as FieldWidth })
             }
           >
             <option value="quarter">Quarter</option>
@@ -79,12 +86,13 @@ export default function PropertiesPanel() {
             <Form.Control
               as="textarea"
               rows={4}
-              value={field.options?.join('\n') ?? ''}
-              onChange={(e) =>
-                updateField(group.id, field.id, {
+              value={optionsText}
+              onChange={(e) => {
+                setOptionsText(e.target.value);
+                updateField(fieldGroup.id, field.id, {
                   options: e.target.value.split('\n').filter((o) => o.trim() !== ''),
-                })
-              }
+                });
+              }}
             />
           </Form.Group>
         )}

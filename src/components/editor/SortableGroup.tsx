@@ -2,6 +2,7 @@
 
 import { Button, Row, Col } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
+import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useFormStore } from '@/store/formStore';
 import type { FormGroup } from '@/types/form';
 import { WIDTH_TO_COLS } from '@/lib/fieldWidth';
@@ -39,13 +40,15 @@ export default function SortableGroup({ group }: { group: FormGroup }) {
       {group.fields.length === 0 ? (
         <p className="text-muted mb-0">No fields yet — add one from the panel on the left.</p>
       ) : (
-        <Row className="g-2">
-          {group.fields.map((field) => (
-            <Col key={field.id} md={WIDTH_TO_COLS[field.width]}>
-              <SortableFieldItem groupId={group.id} field={field} />
-            </Col>
-          ))}
-        </Row>
+        <SortableContext items={group.fields.map((f) => f.id)} strategy={rectSortingStrategy}>
+          <Row className="g-2">
+            {group.fields.map((field) => (
+              <Col key={field.id} md={WIDTH_TO_COLS[field.width]}>
+                <SortableFieldItem groupId={group.id} field={field} />
+              </Col>
+            ))}
+          </Row>
+        </SortableContext>
       )}
     </div>
   );
