@@ -1,4 +1,4 @@
-<center>
+<div align="center">
 
 <img style='height: 130px;' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png' />
 
@@ -14,7 +14,7 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/reisene/formbuilder/badge)](https://www.codefactor.io/repository/github/reisene/formbuilder)
 [![Maintainability](https://qlty.sh/gh/reisene/projects/formbuilder/maintainability.svg)](https://qlty.sh/gh/reisene/projects/formbuilder)
 
-</center>
+</div>
 
 A visual drag-and-drop form builder built with [Next.js](https://nextjs.org) (App Router), React, TypeScript and React Bootstrap. This is a portfolio project focused on clean architecture, scalability, maintainability and developer experience.
 
