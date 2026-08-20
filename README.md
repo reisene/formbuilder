@@ -1,6 +1,6 @@
 <center>
 
-<img style='height: 130px;' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png/' />
+<img style='height: 130px;' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png' />
 
 # Form Builder
 
