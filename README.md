@@ -1,11 +1,5 @@
 <div align="center">
 <img height='130' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png' alt="Form Builder" />
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100..900&display=swap');
-  h1 {
-    font-family: 'Noto Sans Mono';
-  }
-</style>
 
 # Form Builder
 
