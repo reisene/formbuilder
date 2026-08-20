@@ -1,7 +1,11 @@
 import type { NextConfig } from 'next';
 import path from 'path';
 
-const localhost = process.env.NEXT_DEV_HOST || 'localhost';
+const devOrigins = ['localhost', '127.0.0.1'];
+
+if (process.env.NEXT_DEV_HOST) {
+  devOrigins.push(process.env.NEXT_DEV_HOST);
+}
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -19,7 +23,7 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  allowedDevOrigins: [localhost],
+  allowedDevOrigins: devOrigins,
 };
 
 export default nextConfig;

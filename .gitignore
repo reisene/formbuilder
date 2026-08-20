@@ -62,3 +62,9 @@ Thumbs.db
 
 # Husky
 .husky/_
+
+# Temporary config circleci
+.circleci/config.yml
+
+# TODO
+TODO.md

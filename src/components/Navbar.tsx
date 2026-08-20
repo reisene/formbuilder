@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Container, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import ThemeToggle from './ThemeToggle';
-import useTheme from '@/hooks/useTheme';
 import { usePathname } from 'next/navigation';
 
 import { Noto_Sans_Mono } from 'next/font/google';
@@ -18,7 +17,7 @@ const navlinks = [
   { href: '/', label: 'Home' },
   { href: '/editor', label: 'Editor' },
   { href: '/docs', label: 'Docs' },
-  { href: '/about', label: 'About' },
+  { href: '/about', label: 'About', disabled: true },
 ];
 
 import { BsGithub } from 'react-icons/bs';
@@ -42,8 +41,6 @@ const RepoLink = () => {
 
 function AppNavbar() {
   const pathname = usePathname();
-
-  const { theme } = useTheme();
 
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState({
@@ -100,13 +97,7 @@ function AppNavbar() {
   }, [updateIndicator]);
 
   return (
-    <Navbar
-      expand="lg"
-      sticky="top"
-      bg={theme}
-      data-bs-theme={theme}
-      className={notoMono.className}
-    >
+    <Navbar expand="lg" sticky="top" className={notoMono.className}>
       <Container>
         <Navbar.Brand as={Link} href="/" className="d-inline-flex align-items-center gap-2">
           <img alt="Form Builder Logo" src="/formbuilder.png" width="50" height="50" />
@@ -117,7 +108,6 @@ function AppNavbar() {
 
         <Navbar.Offcanvas
           className={notoMono.className}
-          data-bs-theme={theme}
           id="offcanvasNavbar-expand-lg"
           aria-labelledby="offcanvasNavbarLabel-expand-lg"
           placement="end"
@@ -151,8 +141,11 @@ function AppNavbar() {
                 <Nav.Link
                   key={link.href}
                   as={Link}
-                  href={link.href}
-                  active={isLinkActive(link.href)}
+                  href={link.disabled ? '#' : link.href}
+                  active={!link.disabled && isLinkActive(link.href)}
+                  aria-disabled={link.disabled || undefined}
+                  tabIndex={link.disabled ? -1 : undefined}
+                  onClick={link.disabled ? (e) => e.preventDefault() : undefined}
                 >
                   {link.label}
                 </Nav.Link>

@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/5647358b807d4f1fa032f03d166632ad)](https://app.codacy.com/gh/reisene/formbuilder/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![codecov](https://codecov.io/gh/reisene/formbuilder/graph/badge.svg?token=3LJFR180S0)](https://codecov.io/gh/reisene/formbuilder)
+[![CircleCI](https://dl.circleci.com/status-badge/img/circleci/G9R5r1gJVxu9sH9yYjxb4W/E3ZwVyJCSSjjo6NN7ucJzz/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/circleci/G9R5r1gJVxu9sH9yYjxb4W/E3ZwVyJCSSjjo6NN7ucJzz/tree/main)
 
 A visual drag-and-drop form builder built with [Next.js](https://nextjs.org) (App Router), React, TypeScript and React Bootstrap. This is a portfolio project focused on clean architecture, scalability, maintainability and developer experience.
 
