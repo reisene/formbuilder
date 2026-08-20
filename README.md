@@ -1,8 +1,6 @@
 <div align="center">
-
-# Form Builder
-
-<img style='height: 130px;' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png' />
+<img height='130' src='https://raw.githubusercontent.com/reisene/formbuilder/main/public/icon.png' alt="Form Builder" />
+<h1>Form Builder</h1>
 
 ![GitHub License](https://img.shields.io/github/license/reisene/formbuilder)
 ![GitHub Release](https://img.shields.io/github/v/release/reisene/formbuilder)
