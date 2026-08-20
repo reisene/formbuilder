@@ -48,7 +48,6 @@
     "react-icons": "^5.7.0",
     "sass": "^1.102.0",
     "typewriter-effect": "^2.22.0",
-    "uuid": "^14.0.2",
     "zod": "^4.4.3",
     "zustand": "^5.0.15"
   },
