@@ -10,11 +10,16 @@ import {
   useSensor,
   useSensors,
   PointerSensor,
+  KeyboardSensor,
   type DragStartEvent,
   type DragOverEvent,
   type DragEndEvent,
 } from '@dnd-kit/core';
-import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable';
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  sortableKeyboardCoordinates,
+} from '@dnd-kit/sortable';
 import { useFormStore } from '@/store/formStore';
 import SortableSection from './SortableSection';
 import FieldPreview from './FieldPreview';
@@ -31,6 +36,9 @@ export default function FormCanvas() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: { distance: 8 },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
     }),
   );
 
