@@ -71,10 +71,14 @@ export function ThemeProvider({
     };
 
     window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
+    return () => {
+      window.removeEventListener('storage', onStorage);
+    };
   }, []);
 
-  const toggle = useCallback(() => setTheme((t) => (t === 'light' ? 'dark' : 'light')), []);
+  const toggle = useCallback(() => {
+    setTheme((t) => (t === 'light' ? 'dark' : 'light'));
+  }, []);
   const value = useMemo(() => ({ theme, toggle }), [theme, toggle]);
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

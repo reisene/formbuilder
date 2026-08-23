@@ -16,7 +16,10 @@ import { headers } from 'next/headers';
 import lang from '@/config/lang';
 
 export const metadata: Metadata = {
-  title: site.meta.title,
+  title: {
+    template: `%s | ${site.meta.title}`,
+    default: site.meta.title,
+  },
   description: site.meta.description,
   metadataBase: new URL(site.url),
   authors: [{ name: site.author.name, url: site.author.url }],
