@@ -7,6 +7,7 @@ import type { FieldType } from '@/types/form';
 const FIELD_TYPES: { type: FieldType; label: string }[] = [
   { type: 'text', label: 'Text' },
   { type: 'email', label: 'Email' },
+  { type: 'password', label: 'Password' },
   { type: 'number', label: 'Number' },
   { type: 'textarea', label: 'Textarea' },
   { type: 'select', label: 'Select' },
@@ -14,6 +15,7 @@ const FIELD_TYPES: { type: FieldType; label: string }[] = [
   { type: 'radio', label: 'Radio' },
   { type: 'date', label: 'Date' },
   { type: 'file', label: 'File' },
+  { type: 'button', label: 'Button' },
 ];
 
 interface FieldPaletteProps {

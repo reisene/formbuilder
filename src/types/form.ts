@@ -1,18 +1,79 @@
-export type FieldType =
-  'text' | 'email' | 'number' | 'textarea' | 'select' | 'checkbox' | 'radio' | 'date' | 'file';
-
 export type FieldWidth = 'quarter' | 'half' | 'threeQuarters' | 'full';
 
-export interface FormField {
+export type ButtonType = 'submit' | 'reset' | 'button';
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'danger'
+  | 'warning'
+  | 'info'
+  | 'light'
+  | 'dark'
+  | 'link'
+  | 'outline-primary'
+  | 'outline-secondary'
+  | 'outline-success'
+  | 'outline-danger'
+  | 'outline-warning'
+  | 'outline-info'
+  | 'outline-light'
+  | 'outline-dark';
+
+interface BaseField {
   id: string;
   name: string;
-  type: FieldType;
   label: string;
-  placeholder?: string;
   required: boolean;
-  options?: string[];
   width: FieldWidth;
 }
+
+export interface TextLikeField extends BaseField {
+  type: 'text' | 'email' | 'password' | 'number' | 'date';
+  placeholder?: string;
+}
+
+export interface TextareaField extends BaseField {
+  type: 'textarea';
+  placeholder?: string;
+}
+
+export interface SelectField extends BaseField {
+  type: 'select';
+  options: string[];
+  multiple?: boolean;
+}
+
+export interface RadioField extends BaseField {
+  type: 'radio';
+  options: string[];
+}
+
+export interface CheckboxField extends BaseField {
+  type: 'checkbox';
+}
+
+export interface FileField extends BaseField {
+  type: 'file';
+  multiple?: boolean;
+}
+
+export interface ButtonField extends BaseField {
+  type: 'button';
+  buttonType?: ButtonType;
+  variant?: ButtonVariant;
+}
+
+export type FormField =
+  | TextLikeField
+  | TextareaField
+  | SelectField
+  | RadioField
+  | CheckboxField
+  | FileField
+  | ButtonField;
+
+export type FieldType = FormField['type'];
 
 export interface FormGroup {
   id: string;

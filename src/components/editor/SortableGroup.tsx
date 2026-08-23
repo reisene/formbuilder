@@ -2,6 +2,7 @@
 
 import { Button, Row, Col } from 'react-bootstrap';
 import { BsTrash } from 'react-icons/bs';
+import { useDroppable } from '@dnd-kit/core';
 import { SortableContext, rectSortingStrategy } from '@dnd-kit/sortable';
 import { useFormStore } from '@/store/formStore';
 import type { FormGroup } from '@/types/form';
@@ -14,6 +15,12 @@ export default function SortableGroup({ group }: { group: FormGroup }) {
   const removeGroup = useFormStore((s) => s.removeGroup);
 
   const isSelected = group.id === selectedGroupId;
+  const isEmpty = group.fields.length === 0;
+
+  const { setNodeRef: setDroppableRef, isOver } = useDroppable({
+    id: group.id,
+    disabled: !isEmpty,
+  });
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -21,11 +28,12 @@ export default function SortableGroup({ group }: { group: FormGroup }) {
   };
 
   return (
-    <div
-      onClick={() => selectGroup(group.id)}
-      className={`border rounded p-3 mb-3 ${isSelected ? 'border-primary' : ''}`}
-    >
-      <div className="d-flex justify-content-between align-items-center mb-2">
+    <div className={`border rounded p-3 mb-3 ${isSelected ? 'border-primary' : ''}`}>
+      <div
+        onClick={() => selectGroup(group.id)}
+        className="d-flex justify-content-between align-items-center mb-2"
+        style={{ cursor: 'pointer' }}
+      >
         <strong>{group.title || 'Untitled section'}</strong>
         <Button
           variant="outline-danger"
@@ -37,8 +45,13 @@ export default function SortableGroup({ group }: { group: FormGroup }) {
         </Button>
       </div>
 
-      {group.fields.length === 0 ? (
-        <p className="text-muted mb-0">No fields yet — add one from the panel on the left.</p>
+      {isEmpty ? (
+        <div
+          ref={setDroppableRef}
+          className={`text-muted text-center py-3 rounded ${isOver ? 'bg-body-secondary border border-primary' : ''}`}
+        >
+          No fields yet — add one from the panel on the left, or drag one here.
+        </div>
       ) : (
         <SortableContext items={group.fields.map((f) => f.id)} strategy={rectSortingStrategy}>
           <Row className="g-2">

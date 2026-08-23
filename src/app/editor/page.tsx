@@ -1,8 +1,7 @@
-// app/editor/page.tsx
 'use client';
 
 import { useState } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import { useFormStore } from '@/store/formStore';
 import EditorToolbar from '@/components/editor/EditorToolbar';
 import FieldPalette from '@/components/editor/FieldPalette';
@@ -13,8 +12,22 @@ import ExportModal from '@/components/editor/ExportModal';
 
 export default function EditorPage() {
   const selectedGroupId = useFormStore((s) => s.selectedGroupId);
+  const hasHydrated = useFormStore((s) => s.hasHydrated);
   const [showPreview, setShowPreview] = useState(false);
   const [showExport, setShowExport] = useState(false);
+
+  if (!hasHydrated) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: '60vh' }}
+      >
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading editor…</span>
+        </Spinner>
+      </div>
+    );
+  }
 
   return (
     <>

@@ -1,8 +1,33 @@
-// store/formStore.ts
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { arrayMove } from '@dnd-kit/sortable';
 import type { FieldType, FormField, FormGroup } from '@/types/form';
+import { createField } from '@/lib/createField';
+import type { StateStorage } from 'zustand/middleware';
+import { persistedStateSchema } from '@/lib/formSchema';
+
+const validatedLocalStorage: StateStorage = {
+  getItem: (name) => {
+    const raw = localStorage.getItem(name);
+    if (!raw) return null;
+
+    try {
+      const parsed = JSON.parse(raw);
+      const result = persistedStateSchema.safeParse(parsed.state);
+      if (!result.success) {
+        console.warn('Saved form data no longer matches the current schema — starting fresh.');
+        localStorage.removeItem(name);
+        return null;
+      }
+      return raw;
+    } catch {
+      localStorage.removeItem(name);
+      return null;
+    }
+  },
+  setItem: (name, value) => localStorage.setItem(name, value),
+  removeItem: (name) => localStorage.removeItem(name),
+};
 
 interface FormStore {
   groups: FormGroup[];
@@ -76,14 +101,10 @@ export const useFormStore = create<FormStore>()(
         set((state) => {
           const group = state.groups.find((g) => g.id === groupId);
           const sameTypeCount = group ? group.fields.filter((f) => f.type === type).length : 0;
-          const newField: FormField = {
-            id: crypto.randomUUID(),
-            name: `${type}_${sameTypeCount + 1}`,
-            type,
-            label: type.charAt(0).toUpperCase() + type.slice(1),
-            required: false,
-            width: 'full',
-          };
+          const name = `${type}_${sameTypeCount + 1}`;
+          const label = type.charAt(0).toUpperCase() + type.slice(1);
+          const newField = createField(type, name, label);
+
           return {
             groups: state.groups.map((g) =>
               g.id === groupId ? { ...g, fields: [...g.fields, newField] } : g,
@@ -112,7 +133,9 @@ export const useFormStore = create<FormStore>()(
             g.id === groupId
               ? {
                   ...g,
-                  fields: g.fields.map((f) => (f.id === fieldId ? { ...f, ...patch } : f)),
+                  fields: g.fields.map((f) =>
+                    f.id === fieldId ? ({ ...f, ...patch } as FormField) : f,
+                  ),
                 }
               : g,
           ),
@@ -146,7 +169,7 @@ export const useFormStore = create<FormStore>()(
     }),
     {
       name: 'formbuilder-form',
-      storage: createJSONStorage(() => localStorage),
+      storage: createJSONStorage(() => validatedLocalStorage),
       partialize: (state) => ({ groups: state.groups }),
       onRehydrateStorage: () => (state) => {
         state?.setHasHydrated(true);

@@ -1,4 +1,4 @@
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import type { FormField } from '@/types/form';
 
 interface FieldPreviewProps {
@@ -20,8 +20,8 @@ export default function FieldPreview({ field, disabled = true }: FieldPreviewPro
       return (
         <Form.Group>
           <Form.Label>{field.label}</Form.Label>
-          <Form.Select disabled={disabled}>
-            {field.options?.map((opt) => (
+          <Form.Select disabled={disabled} multiple={field.multiple}>
+            {field.options.map((opt) => (
               <option key={opt}>{opt}</option>
             ))}
           </Form.Select>
@@ -35,13 +35,33 @@ export default function FieldPreview({ field, disabled = true }: FieldPreviewPro
       return (
         <Form.Group>
           <Form.Label>{field.label}</Form.Label>
-          {field.options?.map((opt) => (
+          {field.options.map((opt) => (
             <Form.Check key={opt} type="radio" label={opt} name={field.id} disabled={disabled} />
           ))}
         </Form.Group>
       );
 
+    case 'file':
+      return (
+        <Form.Group>
+          <Form.Label>{field.label}</Form.Label>
+          <Form.Control type="file" multiple={field.multiple} disabled={disabled} />
+        </Form.Group>
+      );
+
+    case 'button':
+      return (
+        <Button
+          type={field.buttonType ?? 'submit'}
+          variant={field.variant ?? 'primary'}
+          disabled={disabled}
+        >
+          {field.label}
+        </Button>
+      );
+
     default:
+      // narrows to TextLikeField: 'text' | 'email' | 'password' | 'number' | 'date'
       return (
         <Form.Group>
           <Form.Label>{field.label}</Form.Label>
