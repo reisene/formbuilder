@@ -10,9 +10,11 @@ export const config: VercelConfig = {
   cleanUrls: true,
   framework: 'nextjs',
   installCommand: 'npm i',
+  ignoreCommand: 'bash scripts/vercel-ignore-build.sh',
   git: {
     deploymentEnabled: {
       'experiment/*': false,
+      'test/*': false,
     },
   },
 };
