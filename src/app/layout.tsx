@@ -4,7 +4,7 @@ import { ThemeProvider } from '@/hooks/useTheme';
 import ThemeInit from '@/hooks/themeInit';
 import site from '@/config/site';
 import '@/styles/global.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
@@ -25,7 +25,10 @@ export const metadata: Metadata = {
   authors: [{ name: site.author.name, url: site.author.url }],
   publisher: site.author.name,
   openGraph: {
-    title: site.meta.title,
+    title: {
+      template: `%s | ${site.meta.title}`,
+      default: site.meta.title,
+    },
     description: site.meta.description,
     url: site.url,
     images: [
@@ -65,7 +68,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
   themeColor: [
     { media: '(prefers-color-scheme: dark)', color: '#121212' },
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },

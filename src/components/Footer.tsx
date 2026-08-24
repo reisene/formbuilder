@@ -38,7 +38,7 @@ export default function Footer({
             {typeof author.ico === 'string' ? (
               <Image
                 src={author.ico}
-                alt={author.name}
+                alt={`${author.name} avatar`}
                 width={25}
                 height={25}
                 style={{

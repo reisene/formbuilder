@@ -3,15 +3,18 @@ import { Image } from 'react-bootstrap';
 const previewImg = [
   {
     id: 1,
-    src: './preview1.png',
+    src: '/preview1.png',
+    alt: 'Editor page',
   },
   {
     id: 2,
-    src: './preview2.png',
+    src: '/preview2.png',
+    alt: 'Preview Modal',
   },
   {
     id: 3,
-    src: './preview3.png',
+    src: '/preview3.png',
+    alt: 'Export Modal',
   },
 ];
 
@@ -24,6 +27,7 @@ export default function Preview() {
           <Image
             key={img.id}
             src={`/preview${img.src.slice(1)}`}
+            alt={img.alt}
             rounded
             fluid
             className="d-block mx-auto"
