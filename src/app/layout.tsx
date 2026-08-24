@@ -11,9 +11,8 @@ import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
 import { Noto_Sans } from 'next/font/google';
-import { headers } from 'next/headers';
 
-import lang from '@/config/lang';
+import TranslationNotice from '@/components/TranslationNotice';
 
 export const metadata: Metadata = {
   title: site.meta.title,
@@ -64,18 +63,17 @@ const notoSans = Noto_Sans({
   weight: ['400', '700'],
 });
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const lng = await lang(headers);
-
   return (
-    <html lang={lng} suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={notoSans.className} suppressHydrationWarning>
         <ThemeInit />
         <ThemeProvider>
+          <TranslationNotice />
           <AppNavbar />
           <main className="app-content">{children}</main>
           <Footer author={site.author} />

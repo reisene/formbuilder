@@ -11,7 +11,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     include: ['__tests__/**/*.{test,spec}.{ts,tsx}'],
-    reporters: ['junit', 'verbose', 'github-actions'],
+    reporters: ['junit', 'github-actions'],
     coverage: {
       include: ['src/**/*.{ts,tsx}'],
       reporter: ['text', 'html', 'clover', 'json', 'lcov', 'cobertura'],
