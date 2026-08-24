@@ -117,7 +117,7 @@ function AppNavbar() {
               id="offcanvasNavbarLabel-expand-lg"
               className="d-inline-flex align-items-center gap-2"
             >
-              <img alt="Form Builder Logo" src="formbuilder.png" width="50" height="50" />
+              <img alt="Form Builder Logo" src="formbuilder.svg" width="50" height="50" />
               Form Builder
             </Offcanvas.Title>
           </Offcanvas.Header>
