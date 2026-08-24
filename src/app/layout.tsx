@@ -16,10 +16,7 @@ import { headers } from 'next/headers';
 import lang from '@/config/lang';
 
 export const metadata: Metadata = {
-  title: {
-    template: `%s | ${site.meta.title}`,
-    default: site.meta.title,
-  },
+  title: site.meta.title,
   description: site.meta.description,
   metadataBase: new URL(site.url),
   authors: [{ name: site.author.name, url: site.author.url }],
@@ -28,10 +25,13 @@ export const metadata: Metadata = {
     google: site.gsv,
   },
   openGraph: {
+    type: 'website',
+    locale: 'en_US',
     title: {
       template: `%s | ${site.meta.title}`,
       default: site.meta.title,
     },
+    siteName: site.meta.title,
     description: site.meta.description,
     url: site.url,
     images: [
@@ -42,29 +42,14 @@ export const metadata: Metadata = {
       },
     ],
   },
+  manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/ico/apple-touch-icon.png',
-    other: [
-      {
-        rel: 'android-chrome-192x192',
-        url: '/ico/android-chrome-192x192.png',
-      },
-      {
-        rel: 'android-chrome-512x512',
-        url: '/ico/android-chrome-512x512.png',
-      },
-      {
-        rel: 'icon',
-        url: 'ico/favicon-16x16.png',
-        sizes: '16x16',
-      },
-      {
-        rel: 'icon',
-        url: '/ico/favicon-32x32.png',
-        sizes: '32x32',
-      },
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/ico/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/ico/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
     ],
+    apple: [{ url: '/ico/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
   },
 };
 
