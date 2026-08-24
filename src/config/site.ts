@@ -14,11 +14,13 @@ const author: {
 };
 const url = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 const repo = process.env.NEXT_PUBLIC_REPO || 'http://localhost:3000';
+const gsv = process.env.GOOGLE_SITE_VERIFICATION;
 
 const site = {
   author,
   url,
   repo,
+  gsv,
   meta: {
     title: 'Form Builder',
     description: 'A visual form builder application.',

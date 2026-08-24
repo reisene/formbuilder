@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   authors: [{ name: site.author.name, url: site.author.url }],
   publisher: site.author.name,
+  verification: {
+    google: site.gsv,
+  },
   openGraph: {
     title: {
       template: `%s | ${site.meta.title}`,
