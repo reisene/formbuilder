@@ -8,16 +8,19 @@ const previewImg = [
     id: 1,
     src: '/preview1.png',
     alt: 'Editor page',
+    height: 450,
   },
   {
     id: 2,
     src: '/preview2.png',
     alt: 'Preview Modal',
+    height: 450,
   },
   {
     id: 3,
     src: '/preview3.png',
     alt: 'Export Modal',
+    height: 950,
   },
 ];
 
@@ -36,10 +39,11 @@ export default function Preview() {
             src={`preview${img.src}`}
             alt={img.alt}
             width={800}
+            height={img.height}
             rounded
             fluid
             className="d-block mx-auto"
-            style={{ cursor: 'zoom-in' }}
+            style={{ cursor: 'zoom-in', height: 'auto' }}
             onClick={() => setSelectedImage(img)}
           />
         ))}
