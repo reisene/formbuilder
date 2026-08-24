@@ -100,7 +100,7 @@ function AppNavbar() {
     <Navbar expand="lg" sticky="top" className={notoMono.className}>
       <Container>
         <Navbar.Brand as={Link} href="/" className="d-inline-flex align-items-center gap-2">
-          <img alt="Form Builder Logo" src="/formbuilder.png" width="50" height="50" />
+          <img alt="Form Builder Logo" src="/formbuilder.svg" width="50" height="50" />
           Form Builder
         </Navbar.Brand>
 
