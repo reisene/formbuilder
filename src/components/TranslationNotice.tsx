@@ -34,14 +34,26 @@ export default function TranslationNotice() {
   if (!show) return null;
 
   return (
-    <Alert variant="info" dismissible onClose={handleClose} className="mb-0 rounded-0 text-center">
+    <Alert
+      variant="info"
+      role="alert"
+      dismissible
+      onClose={handleClose}
+      className="mb-0 rounded-0 text-center"
+    >
       <div className="vstack gap-2 align-items-center">
         <p className="mb-0">
           Your browser language is <strong>{language}</strong>. The site is currently available only
           in English. Want to help translate it?
         </p>
         <div className="hstack gap-2 justify-content-center">
-          <Button href={site.repo} variant="info" size="sm">
+          <Button
+            href={site.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="info"
+            size="sm"
+          >
             Contribute on Github
           </Button>
           <a
