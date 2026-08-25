@@ -14,7 +14,8 @@ const author: {
 };
 const url = process.env.NEXT_PUBLIC_URL || 'http://localhost:3000';
 const repo = process.env.NEXT_PUBLIC_REPO || 'http://localhost:3000';
-const gsv = process.env.GOOGLE_SITE_VERIFICATION;
+const gsv = process.env.GOOGLE_SITE_VERIFICATION || undefined;
+const sentry = process.env.NEXT_PUBLIC_SENTRY_DSN || undefined;
 
 const site = {
   author,
@@ -29,3 +30,4 @@ const site = {
 };
 
 export default site;
+export { sentry };

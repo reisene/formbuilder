@@ -8,6 +8,7 @@ import { useFormStore } from '@/store/formStore';
 import type { FormGroup } from '@/types/form';
 import { WIDTH_TO_COLS } from '@/lib/fieldWidth';
 import SortableFieldItem from './SortableFieldItem';
+import { confirmDelete } from '@/lib/confirmDelete';
 
 export default function SortableGroup({ group }: { group: FormGroup }) {
   const selectedGroupId = useFormStore((s) => s.selectedGroupId);
@@ -24,7 +25,9 @@ export default function SortableGroup({ group }: { group: FormGroup }) {
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
-    removeGroup(group.id);
+    if (confirmDelete(`the "${group.title || 'Untitled section'}" section and all its fields`)) {
+      removeGroup(group.id);
+    }
   };
 
   return (

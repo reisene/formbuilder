@@ -4,6 +4,7 @@ import { Form } from 'react-bootstrap';
 import { useFormStore } from '@/store/formStore';
 import type { FieldWidth, ButtonType, ButtonVariant } from '@/types/form';
 import { useState, useEffect } from 'react';
+import { confirmDelete } from '@/lib/confirmDelete';
 
 export default function PropertiesPanel() {
   const groups = useFormStore((s) => s.groups);
@@ -11,6 +12,8 @@ export default function PropertiesPanel() {
   const selectedGroupId = useFormStore((s) => s.selectedGroupId);
   const updateField = useFormStore((s) => s.updateField);
   const updateGroupTitle = useFormStore((s) => s.updateGroupTitle);
+  const removeField = useFormStore((s) => s.removeField);
+  const removeGroup = useFormStore((s) => s.removeGroup);
 
   const [optionsText, setOptionsText] = useState('');
   const fieldGroup = groups.find((g) => g.fields.some((f) => f.id === selectedFieldId));
@@ -21,6 +24,35 @@ export default function PropertiesPanel() {
       setOptionsText(field.options.join('\n'));
     }
   }, [field?.id]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isTypingInField =
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLSelectElement;
+      if (isTypingInField) return;
+
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedFieldId && fieldGroup && field) {
+          if (confirmDelete(`the "${field.label}" field`)) {
+            removeField(fieldGroup.id, field.id);
+          }
+        } else if (selectedGroupId) {
+          const group = groups.find((g) => g.id === selectedGroupId);
+          if (
+            group &&
+            confirmDelete(`the "${group.title || 'Untitled section'}" section and all its fields`)
+          ) {
+            removeGroup(group.id);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedFieldId, selectedGroupId, fieldGroup, field, groups, removeField, removeGroup]);
 
   if (selectedFieldId) {
     if (!fieldGroup || !field) {

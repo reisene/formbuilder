@@ -64,3 +64,6 @@ Thumbs.db
 
 # TODO
 TODO.md
+
+# Sentry Config File
+.env.sentry-build-plugin

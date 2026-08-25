@@ -7,6 +7,7 @@ import { BsTrash, BsGripVertical } from 'react-icons/bs';
 import { useFormStore } from '@/store/formStore';
 import type { FormField } from '@/types/form';
 import FieldPreview from './FieldPreview';
+import { confirmDelete } from '@/lib/confirmDelete';
 
 interface SortableFieldItemProps {
   groupId: string;
@@ -37,7 +38,9 @@ export default function SortableFieldItem({ groupId, field }: SortableFieldItemP
 
   const handleRemove = (e: React.MouseEvent) => {
     e.stopPropagation();
-    removeField(groupId, field.id);
+    if (confirmDelete(`the "${field.label}" field`)) {
+      removeField(groupId, field.id);
+    }
   };
 
   return (
