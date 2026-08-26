@@ -19,6 +19,11 @@ Sentry.init({
     // userInfo: false,
     // httpBodies: [],
   },
+  integrations: [
+    Sentry.feedbackIntegration({
+      colorScheme: 'system',
+    }),
+  ],
 });
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
