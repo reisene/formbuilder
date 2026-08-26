@@ -7,6 +7,16 @@
     "name": "DraugSköll",
     "email": "kprinny@gmail.com"
   },
+  "funding": [
+    {
+      "type": "patreon",
+      "url": "https://patreon.com/draugskoll"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/reisene"
+    }
+  ],
   "version": "1.0.0",
   "repository": {
     "type": "git",
