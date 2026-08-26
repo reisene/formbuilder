@@ -15,8 +15,7 @@ Please **do not open a public issue** for security vulnerabilities.
 
 Report vulnerabilities privately via one of the following channels:
 
-- **GitHub Security Advisories**: use the "Report a vulnerability" button on the repository's _Security_ tab (preferred).
-- **Email**: kprinny@gmail.com
+- **GitHub Security Advisories**: use the ["Report a vulnerability"](../security/advisores/new) button found under the repository's Security tab to submit a private report.
 
 Please include as much of the following as possible:
 
