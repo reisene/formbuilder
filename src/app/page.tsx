@@ -1,10 +1,10 @@
 import '@/styles/home.scss';
-import Hero from '@/components/Hero';
-import Features from '@/components/Features';
-import KnowHow from '@/components/KnowHow';
-import Preview from '@/components/Preview';
+import Hero from '@/components/home/Hero';
+import Features from '@/components/home/Features';
+import KnowHow from '@/components/home/KnowHow';
+import Preview from '@/components/home/Preview';
 import { Container } from 'react-bootstrap';
-import FinalCta from '@/components/FinalCta';
+import FinalCta from '@/components/home/FinalCta';
 
 export default function Home() {
   return (

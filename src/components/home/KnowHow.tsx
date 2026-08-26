@@ -2,42 +2,8 @@
 
 import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
-import type { IconType } from 'react-icons';
-import {
-  BsPencilSquare,
-  BsDownload,
-  BsArrowRight,
-  BsArrowDown,
-  BsCheck2Square,
-} from 'react-icons/bs';
-
-interface Step {
-  id: number;
-  title: string;
-  description: string;
-  Icon: IconType;
-}
-
-const steps: Step[] = [
-  {
-    id: 1,
-    title: 'Drag & Drop',
-    description: 'Add fields to your form with intuitive drag and drop.',
-    Icon: BsPencilSquare,
-  },
-  {
-    id: 2,
-    title: 'Validation',
-    description: 'Configure validation rules, labels, and requirements.',
-    Icon: BsCheck2Square,
-  },
-  {
-    id: 3,
-    title: 'Export',
-    description: 'Export ready-to-use form to HTML, React, or JSON schema.',
-    Icon: BsDownload,
-  },
-];
+import { BsArrowRight, BsArrowDown } from 'react-icons/bs';
+import { steps } from '@/lib/home';
 
 export default function KnowHow() {
   return (

@@ -3,8 +3,7 @@
 import type { ReactNode } from 'react';
 import Typewriter from 'typewriter-effect';
 import { Button } from 'react-bootstrap';
-
-const strings = ['Build forms', 'Visually', 'Without code'];
+import { strings } from '@/lib/home';
 
 export default function Hero({ children }: { children: ReactNode }) {
   return (

@@ -3,28 +3,7 @@
 import { useState } from 'react';
 import { Image, Modal } from 'react-bootstrap';
 
-const previewImg = [
-  {
-    id: 1,
-    src: '/preview1.png',
-    alt: 'Editor page',
-    height: 450,
-  },
-  {
-    id: 2,
-    src: '/preview2.png',
-    alt: 'Preview Modal',
-    height: 450,
-  },
-  {
-    id: 3,
-    src: '/preview3.png',
-    alt: 'Export Modal',
-    height: 950,
-  },
-];
-
-type PreviewImage = (typeof previewImg)[number];
+import { previewImg, type PreviewImage } from '@/lib/home';
 
 export default function Preview() {
   const [selectedImage, setSelectedImage] = useState<PreviewImage | null>(null);
