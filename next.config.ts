@@ -4,6 +4,8 @@ import path from 'path';
 
 const devOrigins = ['localhost', '127.0.0.1'];
 
+const authToken = process.env.SENTRY_AUTH_TOKEN;
+
 if (process.env.NEXT_DEV_HOST) {
   devOrigins.push(process.env.NEXT_DEV_HOST);
 }
@@ -55,6 +57,8 @@ export default withSentryConfig(nextConfig, {
   org: 'akneth-studio',
 
   project: 'javascript-nextjs-bb',
+
+  ...(authToken ? { authToken: authToken } : {}),
 
   // Only print logs for uploading source maps in CI
   silent: !process.env.CI,
