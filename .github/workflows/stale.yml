@@ -1,4 +1,4 @@
-name: 'Mark stale branches,   PRs and issues'
+name: 'Mark stale branches, PRs and issues'
 
 on:
   schedule:
@@ -24,3 +24,5 @@ jobs:
 
       - name: Repo Pruner
         uses: arminbro/repo-pruner@v2.1.22
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
