@@ -28,7 +28,9 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
       formatTag: format,
       onSuccess: () => {
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        setTimeout(() => {
+          setCopied(false);
+        }, 2000);
       },
       onError: () => {
         setCopyErr(
@@ -44,7 +46,13 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
         <Modal.Title>Export</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Nav variant="tabs" activeKey={format} onSelect={(k) => setFormat(k as ExportFormat)}>
+        <Nav
+          variant="tabs"
+          activeKey={format}
+          onSelect={(k) => {
+            setFormat(k as ExportFormat);
+          }}
+        >
           <Nav.Item>
             <Nav.Link eventKey="json">JSON</Nav.Link>
           </Nav.Item>
@@ -57,7 +65,13 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
         </Nav>
 
         {copyErr && (
-          <Alert variant="danger" className="mt-3 mb-0" onClose={() => setCopyErr(null)}>
+          <Alert
+            variant="danger"
+            className="mt-3 mb-0"
+            onClose={() => {
+              setCopyErr(null);
+            }}
+          >
             {copyErr}
           </Alert>
         )}

@@ -25,8 +25,12 @@ const validatedLocalStorage: StateStorage = {
       return null;
     }
   },
-  setItem: (name, value) => localStorage.setItem(name, value),
-  removeItem: (name) => localStorage.removeItem(name),
+  setItem: (name, value) => {
+    localStorage.setItem(name, value);
+  },
+  removeItem: (name) => {
+    localStorage.removeItem(name);
+  },
 };
 
 interface FormStore {

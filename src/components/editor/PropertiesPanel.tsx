@@ -27,11 +27,11 @@ export default function PropertiesPanel() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isTypingInField =
+      const isFormControl =
         e.target instanceof HTMLInputElement ||
         e.target instanceof HTMLTextAreaElement ||
         e.target instanceof HTMLSelectElement;
-      if (isTypingInField) return;
+      if (isFormControl) return;
 
       if (e.key === 'Delete' || e.key === 'Backspace') {
         if (selectedFieldId && fieldGroup && field) {
@@ -51,7 +51,9 @@ export default function PropertiesPanel() {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
   }, [selectedFieldId, selectedGroupId, fieldGroup, field, groups, removeField, removeGroup]);
 
   if (selectedFieldId) {

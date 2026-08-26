@@ -23,12 +23,21 @@ export default function Preview() {
             fluid
             className="d-block mx-auto"
             style={{ cursor: 'zoom-in', height: 'auto' }}
-            onClick={() => setSelectedImage(img)}
+            onClick={() => {
+              setSelectedImage(img);
+            }}
           />
         ))}
       </div>
 
-      <Modal show={selectedImage !== null} onHide={() => setSelectedImage(null)} centered size="xl">
+      <Modal
+        show={selectedImage !== null}
+        onHide={() => {
+          setSelectedImage(null);
+        }}
+        centered
+        size="xl"
+      >
         <Modal.Body className="p-0 text-center bg-dark">
           {selectedImage ? (
             <Image

@@ -15,7 +15,7 @@ describe('useTheme / ThemeProvider', () => {
     expect(() => renderHook(() => useTheme())).toThrow(/must be used within/);
   });
 
-  test('initializes from an inline data-theme on <html>', () => {
+  test('initializes from an inline data-theme on documentElement', () => {
     document.documentElement.dataset.theme = 'dark';
 
     const { result } = renderHook(() => useTheme(), {

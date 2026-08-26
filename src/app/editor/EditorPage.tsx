@@ -31,7 +31,12 @@ export default function EditorPage() {
 
   return (
     <>
-      <EditorToolbar onPreview={() => setShowPreview(true)} onExport={() => setShowExport(true)} />
+      <EditorToolbar
+        onPreview={() => {
+          setShowPreview(true);
+        }}
+        onExport={() => setShowExport(true)}
+      />
 
       <Container fluid>
         <Row>
@@ -49,8 +54,18 @@ export default function EditorPage() {
         </Row>
       </Container>
 
-      <PreviewPanel show={showPreview} onHide={() => setShowPreview(false)} />
-      <ExportModal show={showExport} onHide={() => setShowExport(false)} />
+      <PreviewPanel
+        show={showPreview}
+        onHide={() => {
+          setShowPreview(false);
+        }}
+      />
+      <ExportModal
+        show={showExport}
+        onHide={() => {
+          setShowExport(false);
+        }}
+      />
     </>
   );
 }

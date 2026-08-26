@@ -85,11 +85,9 @@ function AppNavbar() {
     updateIndicator();
     window.addEventListener('resize', updateIndicator);
     document.addEventListener('shown.bs.offcanvas', updateIndicator);
-    if (document.fonts?.ready) {
-      document.fonts.ready.then(() => {
-        updateIndicator();
-      });
-    }
+    document.fonts?.ready.then(() => {
+      updateIndicator();
+    });
     return () => {
       window.removeEventListener('resize', updateIndicator);
       document.removeEventListener('shown.bs.offcanvas', updateIndicator);

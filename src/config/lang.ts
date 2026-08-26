@@ -3,10 +3,7 @@ const TRANSLATION_NOTICE_COOKIE = 'translation_notice_closed';
 export function getPreferredLanguage(): string {
   if (typeof navigator === 'undefined') return 'en';
 
-  const languages =
-    navigator.languages && navigator.languages.length > 0
-      ? navigator.languages
-      : [navigator.language];
+  const languages = navigator.languages.length > 0 ? navigator.languages : [navigator.language];
 
   const first = languages.find(Boolean);
   if (!first) return 'en';
