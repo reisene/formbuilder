@@ -35,7 +35,9 @@ export default function EditorPage() {
         onPreview={() => {
           setShowPreview(true);
         }}
-        onExport={() => setShowExport(true)}
+        onExport={() => {
+          setShowExport(true);
+        }}
       />
 
       <Container fluid>
