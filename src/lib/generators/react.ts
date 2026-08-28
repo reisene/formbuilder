@@ -6,10 +6,17 @@ function escapeJsx(value: string): string {
   return escapeHtml(value).replace(/\{/g, '&#123;').replace(/\}/g, '&#125;');
 }
 
+function requiredMarkJsx(required: boolean): string {
+  return required
+    ? ' <span className="text-danger" aria-hidden="true">*</span><span className="visually-hidden"> (required)</span>'
+    : '';
+}
+
 function fieldToReact(f: FormField): string {
   const cols = WIDTH_TO_COLS[f.width];
   const name = escapeJsx(f.name);
   const label = escapeJsx(f.label);
+  const mark = requiredMarkJsx(f.required);
   let control: string;
 
   switch (f.type) {
@@ -19,7 +26,7 @@ function fieldToReact(f: FormField): string {
 
     case 'textarea': {
       const placeholder = escapeJsx(f.placeholder ?? '');
-      control = `<label htmlFor="${name}">${label}</label>\n          <textarea id="${name}" name="${name}" className="form-control" placeholder="${placeholder}" ${f.required ? 'required' : ''} />`;
+      control = `<label htmlFor="${name}">${label}${mark}</label>\n          <textarea id="${name}" name="${name}" className="form-control" placeholder="${placeholder}" ${f.required ? 'required' : ''} />`;
       break;
     }
 
@@ -27,7 +34,7 @@ function fieldToReact(f: FormField): string {
       const options = f.options
         .map((o) => `            <option>${escapeJsx(o)}</option>`)
         .join('\n');
-      control = `<label htmlFor="${name}">${label}</label>\n          <select id="${name}" name="${name}" className="form-select" ${f.multiple ? 'multiple' : ''} ${f.required ? 'required' : ''}>\n${options}\n          </select>`;
+      control = `<label htmlFor="${name}">${label}${mark}</label>\n          <select id="${name}" name="${name}" className="form-select" ${f.multiple ? 'multiple' : ''} ${f.required ? 'required' : ''}>\n${options}\n          </select>`;
       break;
     }
 
@@ -38,21 +45,21 @@ function fieldToReact(f: FormField): string {
           return `            <div className="form-check">\n              <input id="${name}-${i}" name="${name}" type="radio" value="${opt}" className="form-check-input" ${f.required ? 'required' : ''} />\n              <label htmlFor="${name}-${i}" className="form-check-label">${opt}</label>\n            </div>`;
         })
         .join('\n');
-      control = `<label className="form-label">${label}</label>\n          ${options}`;
+      control = `<label className="form-label">${label}${mark}</label>\n          ${options}`;
       break;
     }
 
     case 'checkbox':
-      control = `<div className="form-check">\n            <input id="${name}" name="${name}" type="checkbox" className="form-check-input" ${f.required ? 'required' : ''} />\n            <label htmlFor="${name}" className="form-check-label">${label}</label>\n          </div>`;
+      control = `<div className="form-check">\n            <input id="${name}" name="${name}" type="checkbox" className="form-check-input" ${f.required ? 'required' : ''} />\n            <label htmlFor="${name}" className="form-check-label">${label}${mark}</label>\n          </div>`;
       break;
 
     case 'file':
-      control = `<label htmlFor="${name}">${label}</label>\n          <input id="${name}" name="${name}" type="file" className="form-control" ${f.multiple ? 'multiple' : ''} ${f.required ? 'required' : ''} />`;
+      control = `<label htmlFor="${name}">${label}${mark}</label>\n          <input id="${name}" name="${name}" type="file" className="form-control" ${f.multiple ? 'multiple' : ''} ${f.required ? 'required' : ''} />`;
       break;
 
     default: {
       const placeholder = escapeJsx(f.placeholder ?? '');
-      control = `<label htmlFor="${name}">${label}</label>\n          <input id="${name}" name="${name}" type="${f.type}" className="form-control" placeholder="${placeholder}" ${f.required ? 'required' : ''} />`;
+      control = `<label htmlFor="${name}">${label}${mark}</label>\n          <input id="${name}" name="${name}" type="${f.type}" className="form-control" placeholder="${placeholder}" ${f.required ? 'required' : ''} />`;
       break;
     }
   }
