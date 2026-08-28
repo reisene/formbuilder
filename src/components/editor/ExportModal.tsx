@@ -18,6 +18,7 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
   const [format, setFormat] = useState<ExportFormat>('json');
   const [copied, setCopied] = useState(false);
   const [copyErr, setCopyErr] = useState<string | null>(null);
+  const [downloadErr, setDownloadErr] = useState<string | null>(null);
 
   const code = generateFormCode(format, groups);
 
@@ -64,15 +65,17 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
           </Nav.Item>
         </Nav>
 
-        {copyErr && (
+        {(copyErr || downloadErr) && (
           <Alert
             variant="danger"
             className="mt-3 mb-0"
             onClose={() => {
               setCopyErr(null);
+              setDownloadErr(null);
             }}
+            dismissible
           >
-            {copyErr}
+            {copyErr || downloadErr}
           </Alert>
         )}
 
@@ -92,15 +95,18 @@ export default function ExportModal({ show, onHide }: ExportModalProps) {
       <Modal.Footer>
         {format === 'json' && (
           <Button
-            variant="outline-primary"
-            onClick={() =>
+            variant={downloadErr ? 'outline-danger' : 'outline-primary'}
+            onClick={() => {
+              setDownloadErr(null);
               handleDownloadJson(code, {
-                onError: (err) =>
+                onError: (err) => {
+                  setDownloadErr('Failed to download the file. Please try again.');
                   Sentry.captureException(err, {
                     tags: { mechanism: 'download-json-action' },
-                  }),
-              })
-            }
+                  });
+                },
+              });
+            }}
             className="me-auto"
           >
             Download .json file
