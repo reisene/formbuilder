@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Container, Row, Col, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Offcanvas, Button } from 'react-bootstrap';
 import { useFormStore } from '@/store/formStore';
 import EditorToolbar from '@/components/editor/EditorToolbar';
 import FieldPalette from '@/components/editor/FieldPalette';
@@ -17,6 +17,8 @@ export default function EditorPage() {
   const [showPreview, setShowPreview] = useState(false);
   const [showExport, setShowExport] = useState(false);
   const [showImport, setShowImport] = useState(false);
+  const [showPaletteMobile, setShowPaletteMobile] = useState(false);
+  const [showPropertiesMobile, setShowPropertiesMobile] = useState(false);
 
   if (!hasHydrated) {
     return (
@@ -45,9 +47,18 @@ export default function EditorPage() {
         }}
       />
 
+      <div className="d-flex d-md-none justify-content-between p-2 border-bottom">
+        <Button variant="outline-secondary" size="sm" onClick={() => setShowPaletteMobile(true)}>
+          Fields
+        </Button>
+        <Button variant="outline-secondary" size="sm" onClick={() => setShowPropertiesMobile(true)}>
+          Properties
+        </Button>
+      </div>
+
       <Container fluid>
         <Row>
-          <Col md={3} className="border-end p-3">
+          <Col md={3} className="d-none d-md-block border-end p-3">
             <FieldPalette groupId={selectedGroupId} />
           </Col>
 
@@ -55,11 +66,41 @@ export default function EditorPage() {
             <FormCanvas />
           </Col>
 
-          <Col md={3} className="border-start p-3">
+          <Col md={3} className="d-none d-md-block border-start p-3">
             <PropertiesPanel />
           </Col>
         </Row>
       </Container>
+
+      <Offcanvas
+        show={showPaletteMobile}
+        onHide={() => {
+          setShowPaletteMobile(false);
+        }}
+        placement="start"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Fields</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <FieldPalette groupId={selectedGroupId} />
+        </Offcanvas.Body>
+      </Offcanvas>
+
+      <Offcanvas
+        show={showPropertiesMobile}
+        onHide={() => {
+          setShowPropertiesMobile(false);
+        }}
+        placement="end"
+      >
+        <Offcanvas.Header closeButton>
+          <Offcanvas.Title>Properties</Offcanvas.Title>
+        </Offcanvas.Header>
+        <Offcanvas.Body>
+          <PropertiesPanel />
+        </Offcanvas.Body>
+      </Offcanvas>
 
       <ImportModal
         show={showImport}
