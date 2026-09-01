@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import type { FormGroup } from '@/types/form';
 
 const fieldWidthSchema = z.enum(['quarter', 'half', 'threeQuarters', 'full']);
 const buttonTypeSchema = z.enum(['submit', 'reset', 'button']);
@@ -60,3 +61,31 @@ const formGroupSchema = z.object({
 export const persistedStateSchema = z.object({
   groups: z.array(formGroupSchema),
 });
+
+export const formGroupsSchema = z.array(formGroupSchema);
+
+export interface ImportResult {
+  success: boolean;
+  groups?: FormGroup[];
+  error?: string;
+}
+
+export function parseImportedGroups(raw: string): ImportResult {
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { success: false, error: 'Invalid JSON — the file could not be parsed.' };
+  }
+
+  const result = formGroupsSchema.safeParse(parsed);
+  if (!result.success) {
+    return {
+      success: false,
+      error: 'This JSON does not match the expected form schema.',
+    };
+  }
+
+  return { success: true, groups: result.data as FormGroup[] };
+}

@@ -65,19 +65,23 @@ export default function PropertiesPanel() {
       .flatMap((g) => g.fields)
       .some((f) => f.id !== field.id && f.name === field.name && field.name.trim() !== '');
 
+    const isValidNameFormat = /^[A-Za-z][A-Za-z0-9_-]*$/.test(field.name);
+    const isInvalidName = field.name.trim() !== '' && (isDuplicateName || !isValidNameFormat);
+
+    const nameErrorMessage = isDuplicateName
+      ? 'This name is already used by another field. Duplicate names will break the exported HTML (label/id linking, form submission).'
+      : 'Field name must start with a letter and contain only letters, numbers, hyphens, or underscores — no spaces or special characters.';
+
     return (
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Field name</Form.Label>
           <Form.Control
             value={field.name}
-            isInvalid={isDuplicateName}
+            isInvalid={isInvalidName}
             onChange={(e) => updateField(fieldGroup.id, field.id, { name: e.target.value })}
           />
-          <Form.Control.Feedback type="invalid">
-            This name is already used by another field. Duplicate names will break the exported HTML
-            (label/id linking, form submission).
-          </Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{nameErrorMessage}</Form.Control.Feedback>
         </Form.Group>
 
         <Form.Group className="mb-3">

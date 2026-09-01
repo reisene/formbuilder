@@ -9,12 +9,14 @@ import FormCanvas from '@/components/editor/FormCanvas';
 import PropertiesPanel from '@/components/editor/PropertiesPanel';
 import PreviewPanel from '@/components/editor/PreviewPanel';
 import ExportModal from '@/components/editor/ExportModal';
+import ImportModal from '@/components/editor/ImportModal';
 
 export default function EditorPage() {
   const selectedGroupId = useFormStore((s) => s.selectedGroupId);
   const hasHydrated = useFormStore((s) => s.hasHydrated);
   const [showPreview, setShowPreview] = useState(false);
   const [showExport, setShowExport] = useState(false);
+  const [showImport, setShowImport] = useState(false);
 
   if (!hasHydrated) {
     return (
@@ -38,6 +40,9 @@ export default function EditorPage() {
         onExport={() => {
           setShowExport(true);
         }}
+        onImport={() => {
+          setShowImport(true);
+        }}
       />
 
       <Container fluid>
@@ -56,6 +61,12 @@ export default function EditorPage() {
         </Row>
       </Container>
 
+      <ImportModal
+        show={showImport}
+        onHide={() => {
+          setShowImport(false);
+        }}
+      />
       <PreviewPanel
         show={showPreview}
         onHide={() => {

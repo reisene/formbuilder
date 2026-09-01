@@ -38,6 +38,7 @@ interface FormStore {
   selectedFieldId: string | null;
   selectedGroupId: string | null;
   hasHydrated: boolean;
+  loadGroups: (groups: FormGroup[]) => void;
 
   addGroup: (title?: string) => void;
   removeGroup: (groupId: string) => void;
@@ -170,6 +171,13 @@ export const useFormStore = create<FormStore>()(
       selectGroup: (id) => set({ selectedGroupId: id, selectedFieldId: null }),
 
       setHasHydrated: (state) => set({ hasHydrated: state }),
+
+      loadGroups: (groups) =>
+        set({
+          groups,
+          selectedFieldId: null,
+          selectedGroupId: null,
+        }),
     }),
     {
       name: 'formbuilder-form',
