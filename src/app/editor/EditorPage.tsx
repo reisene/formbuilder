@@ -11,14 +11,13 @@ import PreviewPanel from '@/components/editor/PreviewPanel';
 import ExportModal from '@/components/editor/ExportModal';
 import ImportModal from '@/components/editor/ImportModal';
 
+type Overlay = 'preview' | 'export' | 'import' | 'palette' | 'properties' | null;
+
 export default function EditorPage() {
   const selectedGroupId = useFormStore((s) => s.selectedGroupId);
   const hasHydrated = useFormStore((s) => s.hasHydrated);
-  const [showPreview, setShowPreview] = useState(false);
-  const [showExport, setShowExport] = useState(false);
-  const [showImport, setShowImport] = useState(false);
-  const [showPaletteMobile, setShowPaletteMobile] = useState(false);
-  const [showPropertiesMobile, setShowPropertiesMobile] = useState(false);
+  const [activeOverlay, setActiveOverlay] = useState<Overlay>(null);
+  const closeOverlay = () => setActiveOverlay(null);
 
   if (!hasHydrated) {
     return (
@@ -37,21 +36,33 @@ export default function EditorPage() {
     <>
       <EditorToolbar
         onPreview={() => {
-          setShowPreview(true);
+          setActiveOverlay('preview');
         }}
         onExport={() => {
-          setShowExport(true);
+          setActiveOverlay('export');
         }}
         onImport={() => {
-          setShowImport(true);
+          setActiveOverlay('import');
         }}
       />
 
       <div className="d-flex d-md-none justify-content-between p-2 border-bottom">
-        <Button variant="outline-secondary" size="sm" onClick={() => setShowPaletteMobile(true)}>
+        <Button
+          variant="outline-secondary"
+          size="sm"
+          onClick={() => {
+            setActiveOverlay('palette');
+          }}
+        >
           Fields
         </Button>
-        <Button variant="outline-secondary" size="sm" onClick={() => setShowPropertiesMobile(true)}>
+        <Button
+          variant="outline-secondary"
+          size="sm"
+          onClick={() => {
+            setActiveOverlay('properties');
+          }}
+        >
           Properties
         </Button>
       </div>
@@ -72,13 +83,7 @@ export default function EditorPage() {
         </Row>
       </Container>
 
-      <Offcanvas
-        show={showPaletteMobile}
-        onHide={() => {
-          setShowPaletteMobile(false);
-        }}
-        placement="start"
-      >
+      <Offcanvas show={activeOverlay === 'palette'} onHide={closeOverlay} placement="start">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Fields</Offcanvas.Title>
         </Offcanvas.Header>
@@ -87,13 +92,7 @@ export default function EditorPage() {
         </Offcanvas.Body>
       </Offcanvas>
 
-      <Offcanvas
-        show={showPropertiesMobile}
-        onHide={() => {
-          setShowPropertiesMobile(false);
-        }}
-        placement="end"
-      >
+      <Offcanvas show={activeOverlay === 'properties'} onHide={closeOverlay} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>Properties</Offcanvas.Title>
         </Offcanvas.Header>
@@ -102,24 +101,9 @@ export default function EditorPage() {
         </Offcanvas.Body>
       </Offcanvas>
 
-      <ImportModal
-        show={showImport}
-        onHide={() => {
-          setShowImport(false);
-        }}
-      />
-      <PreviewPanel
-        show={showPreview}
-        onHide={() => {
-          setShowPreview(false);
-        }}
-      />
-      <ExportModal
-        show={showExport}
-        onHide={() => {
-          setShowExport(false);
-        }}
-      />
+      <PreviewPanel show={activeOverlay === 'preview'} onHide={closeOverlay} />
+      <ExportModal show={activeOverlay === 'export'} onHide={closeOverlay} />
+      <ImportModal show={activeOverlay === 'import'} onHide={closeOverlay} />
     </>
   );
 }
